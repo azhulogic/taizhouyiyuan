@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper">
+	<select id="selectOrderPrintExtraHealthResult" parameterType = "String" resultType="com.ezsoft.domain.OrderPrintExtraHealthResult">
+		  select jlxh, healthResultXmName, currentState, bz from seniorTalent_orderPrint_extraHealthResult where 
+		  sfzh = #{sfzh} and zfpb = 0
+	</select>
+	<select id="selectOrderPrintExtraHealthResultById" parameterType = "Integer" resultType="com.ezsoft.domain.OrderPrintExtraHealthResult">
+		  select jlxh, healthResultXmName, currentState, bz from seniorTalent_orderPrint_extraHealthResult 
+		  where zfpb = 0 and jlxh = #{jlxh}
+	</select>
+	<insert id="addOrderPrintExtraHealthResult" parameterType="com.ezsoft.domain.OrderPrintExtraHealthResult">
+		insert into seniorTalent_orderPrint_extraHealthResult(sfzh, healthResultXmName, currentState, bz, createTime, createYgdm)
+		values (#{sfzh}, #{healthResultXmName}, #{currentState}, #{bz}, GETDATE(), #{createYgdm})
+	</insert>
+	<update id="updateOrderPrintExtraHealthResult" parameterType="com.ezsoft.domain.OrderPrintExtraHealthResult">
+		update seniorTalent_orderPrint_extraHealthResult set healthResultXmName = #{healthResultXmName}, currentState = #{currentState}, bz = #{bz}
+		where jlxh = #{jlxh}
+	</update>
+	<delete id="deleteOrderPrintExtraHealthResult" parameterType="Integer">
+		delete from seniorTalent_orderPrint_extraHealthResult where jlxh = #{jlxh}
+	</delete>
+</mapper>

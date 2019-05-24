@@ -1,0 +1,82 @@
+http://localhost:8080/seniorTalent_user/seniorTalent.action?sfzh=331082199509035832&key=0FC7C093C4C7D130764BC10712CCFE35&flag=info
+
+
+
+select keytype, keycode, keyword, descr, keymanid
+    from admin_wh --检测类型
+    where keytype = 48
+
+create table seniorTalent_rcjc(
+	jlxh numeric(18,0) identity(1,1) primary key not null,
+	sfzh varchar(18) not null,
+	yyrq datetime not null,  --监测日期
+	jclx int not null,  --监测类型 1血压 2
+	jcz varchar(20) null,  --监测值
+	jlrq datetime,   --记录时间
+	jczt int not null --jczt监测状态 -1停止监测, 0 监测建立, 1 完成监测
+)
+
+日常监测明细 血糖值一天内要测多次 需要一个明细表来记录
+create table seniorTalent_rcjc_mx(
+	jlxh int identity(1,1) primary key,
+	sfzh varchar(18) not null,
+	zfpb int default 0 not null,
+	jcmxlx int default 0 not null, --监测明细类型 1 上压,2 下压,3 早餐前血糖,4 早餐后血糖,5 午餐前血糖,6 午餐后血糖,7 晚餐前血糖,8 晚餐后血糖 
+ 	value varchar(20) NULL,  --监测值
+	jlsj datetime NULL,  --记录时间
+	rcjcNo numeric(18,0),  --对应监测表的主键 seniorTalent_rcjc.jlxh
+	constraint fk_stRcjcmx_rcjcNo foreign key (rcjcNo) references seniorTalent_rcjc (jlxh)
+)
+
+这是这两张表的介绍
+rcjc是主表 一个日期一个监测项目 一条记录
+血糖值一天内要测多次 需要一个明细表来记录 血压值由于有上压 下压两个监测值 也放在明细表来记录
+
+数据库连接方式
+jdbc.url=jdbc:sqlserver://172.16.99.153:1433;DatabaseName=PICC
+jdbc.username=sa
+jdbc.password=sybasepb
+
+
+
+折现展示用echarts？？
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="echarts.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

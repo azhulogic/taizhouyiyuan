@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper.OrderPrintMapper">
+  <resultMap id="BaseResultMap" type="com.ezsoft.domain.OrderPrint">
+    <id column="jlxh" jdbcType="INTEGER" property="jlxh" />
+    <result column="sfzh" jdbcType="VARCHAR" property="sfzh" />
+    <result column="ysdHeight" jdbcType="NUMERIC" property="ysdHeight" />
+    <result column="ysdWeight" jdbcType="INTEGER" property="ysdWeight" />
+    <result column="ysdBMI" jdbcType="NUMERIC" property="ysdBmi" />
+    <result column="ysdHdl" jdbcType="VARCHAR" property="ysdHdl" />
+    <result column="ysdZrlfw" jdbcType="VARCHAR" property="ysdZrlfw" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="createYgdm" jdbcType="VARCHAR" property="createYgdm" />
+  </resultMap>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from seniorTalent_orderPrint
+    where jlxh = #{jlxh}
+  </delete>
+  
+  <insert id="insert" parameterType="com.ezsoft.domain.OrderPrint">
+    insert into seniorTalent_orderPrint (sfzh
+      )
+    values (#{sfzh}
+      )
+  </insert>
+  
+  <select id="selectBySfzhCount" resultType="Integer">
+    select count(*)
+    from seniorTalent_orderPrint
+    where sfzh = #{sfzh}
+  </select>
+  
+  <select id="selectBySfzh" resultType="OrderPrint">
+    select 
+    	jlxh, 
+    	sfzh, 
+    	ysdHeight, 
+    	ysdWeight, 
+    	ysdBMI, 
+    	ysdBztz, 
+    	ysdTx, 
+    	ysdHdl, 
+    	ysdZrlfw, 
+    	ysdZrl, 
+    	ysdValueStr, 
+    	ydqd, 
+    	yyzd, 
+    	smoke,
+    	drink,
+    	exerciseAttention,
+    	checkAdvice,
+	    yearEval, 
+	    createTime, 
+	    createYgdm,
+	    submitBz,
+	    updateTime,
+	    updateYgdm
+    from seniorTalent_orderPrint
+    where sfzh = #{sfzh}
+  </select>
+  
+  <update id="saveByPrimaryKey" parameterType="com.ezsoft.domain.OrderPrint">
+    update seniorTalent_orderPrint
+    set
+      ysdBMI = #{ysdBMI},
+      ysdBztz = #{ysdBztz},
+      ysdTx = #{ysdTx},
+      ysdHdl = #{ysdHdl},
+      ysdZrlfw = #{ysdZrlfw},
+      ysdZrl = #{ysdZrl},
+      ysdValueStr = #{ysdValueStr},
+      ydqd = #{ydqd}, 
+      yyzd = #{yyzd},
+      smoke = #{smoke},
+      drink = #{drink},
+      exerciseAttention = #{exerciseAttention},
+      checkAdvice = #{checkAdvice},
+      yearEval = #{yearEval}
+    where jlxh = #{jlxh}
+  </update>
+  
+  <update id="submitByPrimaryKey" parameterType="com.ezsoft.domain.OrderPrint">
+    update seniorTalent_orderPrint
+    <set>
+      ysdBMI = #{ysdBMI},
+      ysdBztz = #{ysdBztz},
+      ysdTx = #{ysdTx},
+      ysdHdl = #{ysdHdl},
+      ysdZrlfw = #{ysdZrlfw},
+      ysdZrl = #{ysdZrl},
+      ysdValueStr = #{ysdValueStr},
+      ydqd = #{ydqd}, 
+      yyzd = #{yyzd},
+      smoke = #{smoke},
+      drink = #{drink},
+      exerciseAttention = #{exerciseAttention},
+      checkAdvice = #{checkAdvice},
+      yearEval =#{yearEval},
+      <if test="submitBz == 0">
+      	createTime = getDate(),
+      	createYgdm = #{createYgdm},
+      </if>
+      updateTime = getDate(),
+      updateYgdm = #{updateYgdm},
+      submitBz = 1
+    </set>
+    where jlxh = #{jlxh}
+  </update>
+  
+  <!-- ================================================以下未使用 字段有可能存在问题 -->
+  
+  <update id="updateByPrimaryKey" parameterType="com.ezsoft.domain.OrderPrint">
+    update seniorTalent_orderPrint
+    set
+      ysdBMI = #{ysdBMI},
+      ysdBztz = #{ysdBztz},
+      ysdTx = #{ysdTx},
+      ysdHdl = #{ysdHdl},
+      ysdZrlfw = #{ysdZrlfw},
+      ysdZrl = #{ysdZrl},
+      ysdValueStr = #{ysdValueStr},
+      ydqd = #{ydqd}, 
+      yyzd = #{yyzd},
+      smoke = #{smoke},
+      drink = #{drink},
+      exerciseAttention = #{exerciseAttention},
+      checkAdvice = #{checkAdvice},
+      yearEval =#{yearEval}
+    where jlxh = #{jlxh}
+  </update>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="OrderPrint">
+    select 
+    	jlxh, 
+    	sfzh, 
+    	ysdHeight, 
+    	ysdWeight, 
+    	ysdBMI, 
+    	ysdBztz, 
+    	ysdTx, 
+    	ysdHdl, 
+    	ysdZrlfw, 
+    	ysdZrl, 
+    	ysdValueStr, 
+    	ydqd, 
+    	yyzd, 
+    	smoke,
+    	drink,
+    	exerciseAttention,
+    	checkAdvice,
+	    yearEval, 
+	    createTime, 
+	    createYgdm,
+	    submitBz,
+	    updateTime,
+	    updateYgdm
+    from seniorTalent_orderPrint
+    where jlxh = #{jlxh}
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from seniorTalent_orderPrint
+  </select>
+</mapper>

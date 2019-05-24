@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper.OrderPrintHealthCheckUserCheckMapper">
+  <resultMap id="BaseResultMap" type="com.ezsoft.domain.OrderPrintHealthCheckUserCheck">
+    <id column="jlxh" jdbcType="INTEGER" property="jlxh" />
+    <result column="sfzh" jdbcType="VARCHAR" property="sfzh" />
+    <result column="confirmBz" jdbcType="INTEGER" property="confirmBz" />
+    <result column="orderTime" jdbcType="TIMESTAMP" property="orderTime" />
+    <result column="checkTime" jdbcType="TIMESTAMP" property="checkTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from seniorTalent_orderPrint_healthCheck_userCheck
+    where jlxh = #{jlxh,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="OrderPrintHealthCheckUserCheck">
+    insert into seniorTalent_orderPrint_healthCheck_userCheck (jlxh, sfzh, confirmBz, 
+      orderTime, checkTime)
+    values (#{jlxh,jdbcType=INTEGER}, #{sfzh,jdbcType=VARCHAR}, #{confirmBz,jdbcType=INTEGER}, 
+      #{orderTime,jdbcType=TIMESTAMP}, #{checkTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="OrderPrintHealthCheckUserCheck">
+    update seniorTalent_orderPrint_healthCheck_userCheck
+    set
+      confirmBz = #{confirmBz},
+      orderTime = #{orderTime},
+      checkTime = #{checkTime}
+    where jlxh = #{jlxh}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="OrderPrintHealthCheckUserCheck">
+    select jlxh, sfzh, confirmBz, orderTime, checkTime
+    from seniorTalent_orderPrint_healthCheck_userCheck
+    where jlxh = #{jlxh}
+  </select>
+  <select id="selectAll" resultType="OrderPrintHealthCheckUserCheck">
+    select jlxh, sfzh, confirmBz, orderTime, checkTime
+    from seniorTalent_orderPrint_healthCheck_userCheck
+  </select>
+</mapper>

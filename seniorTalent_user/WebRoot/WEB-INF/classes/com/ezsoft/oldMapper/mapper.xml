@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper">
+	<!-- SeniorTalent最新查询方式 -->
+	<select id="selectSeniorTalent_sfzh2" resultType="com.ezsoft.domain.SeniorTalent">
+		select jlxh,name,sfzh,brxb,csny,lxdh,lxdz,mzhm,zyhm,brid,disease,height,weight,sfNo, orderNo,gms, extra_gms as extraGms, education,unit,bloodType,marriage,profession  from seniorTalent 
+		where zfpb = 0 and sfzh = #{sfzh}
+	</select>
+	<select id="selectSeniorTalent_mzhm" resultType="Map">
+		select name,sfzh,brxb,csny,lxdh,lxdz,mzhm,zyhm,brid,disease from seniorTalent 
+		where zfpb = 0 and mzhm = #{mzhm}
+	</select>
+	<select id="selectSeniorTalent_zyhm" resultType="Map">
+		select name,sfzh,brxb,csny,lxdh,lxdz,mzhm,zyhm,brid,disease from seniorTalent 
+		where zfpb = 0 and zyhm = #{zyhm}
+	</select>
+	<select id="selectSeniorTalentList" resultType="Map">
+		select name,sfzh,brxb,csny,lxdh,lxdz,mzhm from seniorTalent where zfpb = 0
+	</select>
+	<select id="selectSeniorTalent_sfzh" resultType="Map">
+		select name,sfzh,brxb,csny,lxdh,lxdz,mzhm,zyhm,brid,disease,height,weight,gms from seniorTalent 
+		where zfpb = 0 and sfzh = #{sfzh}
+	</select>
+	<select id="selectSeniorTalentCount_sfzh" resultType="Integer">
+		select count(*) from seniorTalent where zfpb = 0 and sfzh = #{sfzh}
+	</select>
+	<update id="updateSeniorTalent" parameterType="com.ezsoft.domain.SeniorTalent">
+		update seniorTalent set height = #{height}, weight = #{weight}, gms = #{gms}, extra_gms = #{extraGms}, lxdz = #{lxdz}, education = #{education}, unit = #{unit}, 
+		bloodType = #{bloodType}, marriage = #{marriage}, profession = #{profession}, mzhm = #{mzhm}
+		where sfzh = #{sfzh} and zfpb = 0
+	</update>
+	<update id="healthInfo_updateSeniorTalent" parameterType="com.ezsoft.domain.SeniorTalent">
+		update seniorTalent set height = #{height}, weight = #{weight}, gms = #{gms}, extra_gms = #{extraGms}, lxdz = #{lxdz}, education = #{education}, unit = #{unit}, 
+		bloodType = #{bloodType}, marriage = #{marriage}, profession = #{profession}, mzhm = #{mzhm}, abnormalStr = #{abnormalStr},
+		topBloodPressure = #{topBloodPressure}, downBloodPressure = #{downBloodPressure}, bloodSugar = #{bloodSugar}
+		where sfzh = #{sfzh} and zfpb = 0
+	</update>
+	
+	<select id="selectSeniorTalent_diseaseInfo" resultType="com.ezsoft.domain.DiseaseInfo">
+		select diseaseNo,name from seniorTalent_diseaseInfo
+		where zfpb = 0
+	</select>
+	<select id="selectSeniorTalent_diseaseInfo_neccessary" resultType="com.ezsoft.domain.DiseaseInfo">
+		select diseaseNo,name from seniorTalent_diseaseInfo
+		where zfpb = 0 and diseaseNo != 99
+	</select>
+	<select id="selectSeniorTalent_sflx" resultType="com.ezsoft.domain.Sflx">
+		select diseaseNo,sflxNo,name from seniorTalent_sflx where zfpb = 0 and diseaseNo in 
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+        	#{item}       
+        </foreach>  
+	</select>
+	<select id="selectSeniorTalent_sflxmx" resultType="com.ezsoft.domain.Sflxmx">
+		select diseaseNo,sflxNo,sflxmxNo,name from seniorTalent_sflxmx where zfpb = 0 and diseaseNo in 
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+        	#{item}       
+        </foreach>  
+	</select>
+	<select id="selectSfNo" resultType="Integer">
+		select sfNo from seniorTalent_sfNo where sfzh = #{sfzh}
+	</select>
+	<select id="selectSfNoCount" resultType="Integer">
+		select count(*) from seniorTalent_sfNo where sfzh = #{sfzh}
+	</select>
+	<select id="selectSfInfo" parameterType="Map" resultType="com.ezsoft.domain.SfInfo">
+		select diseaseNo,sflxNo,sflxmxNo,sfzh,value,sfNo,sfsj from seniorTalent_sfInfo where sfzh = #{sfzh}
+		and sfNo = #{sfNo}
+	</select>
+	<select id="selectSfInfo2" resultType="com.ezsoft.domain.SfInfo">
+		select diseaseNo,sflxNo,sflxmxNo,sfzh,value,sfNo,sfsj from seniorTalent_sfInfo where sfzh = #{sfzh}
+	</select>
+	<!-- 查询会员列表 -->
+	<select id="selectSeniorTalent2" parameterType="Map" resultType="Map">
+		select * from seniorTalent where zfpb = 0
+		<if test="mzhm != null">
+	    	AND mzhm = #{mzhm}
+	    </if>
+	    <if test="zyhm != null">
+	    	AND zyhm = #{zyhm}
+	    </if>
+	    <if test="sfzh != null">
+	    	AND sfzh = #{sfzh}
+	    </if>
+		<if test="name != null">
+	    	AND name = #{name}
+	    </if>
+	    <if test="lxdh != null">
+	    	AND lxdh = #{lxdh}
+	    </if>
+	    <if test="searchBz != null">
+	    	AND searchBz = #{searchBz}
+	    </if>
+	</select>
+	<select id="selectSeniorTalent_healthInfoXm" resultType="com.ezsoft.domain.HealthInfoXm">
+		select xmNo, xmName from seniorTalent_healthInfo_xm where zfpb = 0
+	</select>
+	<select id="selectSeniorTalent_healthInfoXmmx" resultType="com.ezsoft.domain.HealthInfoXmmx">
+		select xmNo, xmmxNo, xmmxName, note, selectType, extraAddBz from seniorTalent_healthInfo_xmmx where zfpb = 0
+	</select>
+	<select id="selectSeniorTalent_healthInfoXmmxOption" resultType="com.ezsoft.domain.HealthInfoXmmxOption">
+		select optionNo, xmNo, xmmxNo, optionName from seniorTalent_healthInfo_xmmx_option where zfpb = 0
+		order by optionXuhao
+	</select>
+	<select id="selectSeniorTalent_healthInfoXmXmmxCount" parameterType = "com.ezsoft.domain.HealthInfo"  resultType="Integer">
+		select count(*) from seniorTalent_healthInfo 
+		where sfzh = #{sfzh} and xmNo = #{xmNo} and xmmxNo = #{xmmxNo}
+	</select>
+	
+	<!-- healthInfo -->
+	<select id="selectSeniorTalent_healthInfoList" parameterType = "String"  resultType="com.ezsoft.domain.HealthInfo">
+		select sfzh,xmNo,xmmxNo,value,extraValue from seniorTalent_healthInfo
+		where sfzh = #{sfzh}
+	</select>
+	<insert id="addHealthInfo" parameterType="com.ezsoft.domain.HealthInfo">
+		insert into seniorTalent_healthInfo (sfzh, xmNo, xmmxNo, value, extraValue, createTime, createYgdm)
+		values(#{sfzh}, #{xmNo}, #{xmmxNo}, #{value}, #{extraValue}, getDate(), #{createYgdm})
+	</insert>
+	<update id="updateHealthInfo" parameterType="com.ezsoft.domain.HealthInfo">
+		update seniorTalent_healthInfo set value = #{value}, extraValue = #{extraValue}
+		where sfzh = #{sfzh} and xmNo = #{xmNo} and xmmxNo = #{xmmxNo}
+	</update>
+	
+	<select id="selectUser" parameterType = "com.ezsoft.domain.User"  resultType="com.ezsoft.domain.User">
+		select ygdm userid, ygxm username, pwd from gy_ygdm where ygdm = #{userid} and pwd = #{pwd}
+	</select>
+	<!-- orderInfo的PK是(sfzh,orderXmNo,orderTime)? -->
+	<select id="selectOrderInfoPKCount" parameterType="com.ezsoft.domain.OrderInfo" resultType="Integer">
+		select count(*) from seniorTalent_orderInfo 
+		where sfzh = #{sfzh} and orderXmNo = #{orderXmNo} and orderTime = #{orderTime}
+	</select>
+	<select id="selectOrderExecuteTime" parameterType="java.util.Date" resultType="com.ezsoft.domain.OrderExecuteTime">
+		select seniorTalent_orderExecuteTime.jlxh, seniorTalent_orderExecuteTime.sfzh, seniorTalent.lxdh, seniorTalent.name, seniorTalent_orderExecuteTime.orderXmNo, seniorTalent_orderExecuteTime.healthResultXmNo, seniorTalent_order_xm.orderXmName, seniorTalent_healthResult_xm.xmName healthResultXmName,seniorTalent_order_xmmx.orderXmmxName, seniorTalent_orderExecuteTime.orderType, seniorTalent_orderExecuteTime.executeTime, seniorTalent_orderExecuteTime.createTime, seniorTalent_orderExecuteTime.createYgdm 
+		from seniorTalent, seniorTalent_orderExecuteTime, seniorTalent_order_xm, seniorTalent_healthResult_xm,seniorTalent_order_xmmx
+		where seniorTalent_orderExecuteTime.sfzh = seniorTalent.sfzh and seniorTalent_orderExecuteTime.orderXmNo = seniorTalent_order_xm.orderXmNo and seniorTalent_orderExecuteTime.healthResultXmNo = seniorTalent_healthResult_xm.xmNo
+		and seniorTalent_orderExecuteTime.orderXmNo = seniorTalent_order_xmmx.orderXmNo and seniorTalent_orderExecuteTime.healthResultXmNo = seniorTalent_order_xmmx.healthResultXmNo
+		and executeTime = #{nowDate}
+		and seniorTalent_orderExecuteTime.solveBz = 0 and seniorTalent_orderExecuteTime.zfpb = 0 and seniorTalent.zfpb = 0
+	</select>
+	
+	<select id = "selectHealthResultXm" resultType="com.ezsoft.domain.HealthResultXm">
+		select xmNo, xmName, normalValue from seniorTalent_healthResult_xm
+		where zfpb = 0 and extraBz = 1
+	</select>
+	<select id = "selectHealthResultXmmx" resultType="com.ezsoft.domain.HealthResultXmmx">
+		select healthResultXmmxNo, healthResultXmNo, healthResultXmmxName, unit  from seniorTalent_orderPrint_healthResult_xmmx 
+		where zfpb = 0
+	</select>
+	<select id="selectOrderPrintHealthResult" parameterType="String" resultType="com.ezsoft.domain.OrderPrintHealthResult">
+		select healthResultXmNo, healthResultXmmxNo, nowValue, zfpb from seniorTalent_orderPrint_healthResult
+		where sfzh = #{sfzh}
+	</select>
+	<select id="selectOrderPrintHealthResult_withXmName" parameterType="String" resultType="com.ezsoft.domain.OrderPrintHealthResult">
+		select healthResultXmNo, healthResultXmmxNo, nowValue, zfpb from seniorTalent_orderPrint_healthResult
+		where sfzh = #{sfzh}
+	</select>
+	<select id="selectOrderPrintGoalXm" resultType="com.ezsoft.domain.OrderPrintGoalXm">
+		select xmNo, xmName from seniorTalent_healthResult_xm
+		where zfpb = 0 and extraBz = 1
+	</select>
+	<select id="selectOrderPrintGoalXmmx" resultType="com.ezsoft.domain.OrderPrintGoalXmmx">
+		select goalXmmxNo, healthResultXmNo, goalXmmxName, unit, hasValueBz from seniorTalent_orderPrint_goal_xmmx 
+		where zfpb = 0
+	</select>
+	<select id="selectOrderPrintGoal" parameterType="String" resultType="com.ezsoft.domain.OrderPrintGoal">
+		select jlxh, healthResultXmNo, goalXmmxNo, goalTime, goalValue, achieveBz, zfpb from seniorTalent_orderPrint_goal
+		where sfzh = #{sfzh} and healthResultXmNo != -1000
+	</select>
+	<select id="selectOrderPrintGoalShow" parameterType="String" resultType="com.ezsoft.domain.OrderPrintGoal">
+		select jlxh, healthResultXmNo, goalXmmxNo, goalTime, goalValue, zfpb from seniorTalent_orderPrint_goal
+		where sfzh = #{sfzh} and zfpb = 0
+	</select>
+	
+	<select id="selectOrderPrintHealthCheckXm" resultType="com.ezsoft.domain.OrderPrintHealthCheckXm">
+		select healthCheckXmNo, healthCheckXmName, bz from seniorTalent_orderPrint_healthCheck_xm where zfpb = 0
+	</select>
+	<select id="selectOrderPrintHealthCheckXmmx" resultType="com.ezsoft.domain.OrderPrintHealthCheckXmmx">
+		select healthCheckXmmxNo, healthCheckXmNo, healthCheckXmmxName, price from seniorTalent_orderPrint_healthCheck_xmmx where zfpb = 0
+	</select>
+	<select id="selectOrderPrintHealthCheck" parameterType="String" resultType="com.ezsoft.domain.OrderPrintHealthCheck">
+		select healthCheckXmNo, healthCheckXmmxNo, selectBz from seniorTalent_orderPrint_healthCheck 
+		where zfpb = 0 and sfzh = #{sfzh}
+	</select>
+	<select id="selectOrderPrintHealthCheck_selected" parameterType="String" resultType="com.ezsoft.domain.OrderPrintHealthCheck">
+		select healthCheckXmNo, healthCheckXmmxNo from seniorTalent_orderPrint_healthCheck 
+		where zfpb = 0 and sfzh = #{sfzh} and selectBz = 1
+	</select>
+	
+	
+	<!-- SJZX -->
+	<select id="selectReportList" parameterType="Map" resultType="Map">
+		SELECT TEST_ID ReportNo1,BZ, INSTITUTIONNAME ReportNo2, '2' as ReportType, DEVICE_TYPE as ReportName,Name as PatientName,GENDER as PatientSex,Age as PatientAge,
+        MZHM_ZYHM as AnamnesisNo,APPLY_DEPT as DeptName, APPLY_DOCT_NAME as DoctName,AUDIT_TIME as AssayDate,CLINIC_DIAG Conclusion,treat_type as patientTypeName,institutionname as yq 
+        from MHZS_ExamRequest
+        where ( MZHM_ZYHM = #{brid} or SSN = #{brid}) and  AUDIT_TIME >= #{kssj}
+        and <![CDATA[AUDIT_TIME <= #{jssj}]]> and (TEST_STATE = '已审核' or TEST_STATE = '已打印' or TEST_STATE = 'F')
+	</select>
+	
+	<!-- insert -->
+	<!-- insert into seniorTalent (name,sfzh,brxb,csny,lxdh,lxdz,mzhm,zyhm,brid,yq,disease) values
+        ('蒋正江','332621195510166859',1,'1955-10-16','13566436956','浙江省临海市杜桥镇南溪村１-１６１号','5001147361','00825099','106208291','01','1'); -->
+	<insert id="addSeniorTalent" parameterType="com.ezsoft.domain.SeniorTalent">
+		insert into seniorTalent (name,sfzh,brxb,csny,lxdh,lxdz,mzhm,zyhm,brid,disease, createTime, createYgdm) values
+        (#{name}, #{sfzh}, #{brxb}, #{csny}, #{lxdh}, #{lxdz}, #{mzhm}, #{zyhm}, #{brid}, #{disease}, GETDATE(), #{createYgdm})
+	</insert>
+	<insert id="addSfInfo" parameterType="com.ezsoft.domain.SfInfo">
+		insert into seniorTalent_sfInfo (diseaseNo,sflxNo,sflxmxNo,sfzh,value,sfNo,sfsj,ygdm)
+		values(#{diseaseNo},#{sflxNo},#{sflxmxNo},#{sfzh},#{value},#{sfNo},GETDATE(),#{ygdm})
+	</insert>
+	<insert id="addSfNo">
+		insert into seniorTalent_sfNo (sfzh)
+		values(#{sfzh})
+	</insert>
+	
+	<insert id="addOrderInfo" parameterType="com.ezsoft.domain.OrderInfo">
+		insert into seniorTalent_orderInfo (sfzh, orderXmNo, orderXmmxNo, healthResultXmNo, pushContentNo, orderHowOften, orderNum, orderType, orderNo, createTime, createYgdm)
+		values(#{sfzh}, #{orderXmNo}, #{orderXmmxNo}, #{healthResultXmNo}, #{pushContentNo}, #{orderHowOften}, #{orderNum}, #{orderType}, #{orderNo}, GETDATE(), #{createYgdm})
+	</insert>
+	<insert id="addOrderExecuteTime" parameterType="com.ezsoft.domain.OrderExecuteTime">
+		insert into seniorTalent_orderExecuteTime (sfzh, orderXmNo, orderXmmxNo, healthResultXmNo, executeTime, orderType, createTime, createYgdm)
+		values(#{sfzh}, #{orderXmNo}, #{orderXmmxNo}, #{healthResultXmNo}, #{executeTime}, #{orderType}, GETDATE(), #{createYgdm})
+	</insert>
+	<insert id="addOrderHealthInfoXmmxOption" parameterType="com.ezsoft.domain.HealthInfoXmmxOption">
+		insert into seniorTalent_healthInfo_xmmx_option (xmNo, xmmxNo, optionName, optionXuhao) 
+		values (#{xmNo}, #{xmmxNo}, #{optionName}, #{optionXuhao})
+	</insert>
+	<insert id="addOrderPrintHealthResult" parameterType="com.ezsoft.domain.OrderPrintHealthResult">
+		<selectKey keyProperty="count" resultType="int" order="BEFORE">
+    		select count(*) as count from seniorTalent_orderPrint_healthResult where sfzh = #{sfzh} and healthResultXmmxNo = #{healthResultXmmxNo}
+	  	</selectKey>
+	  	<if test="count > 0">
+	    	update seniorTalent_orderPrint_healthResult set nowValue = #{nowValue}, zfpb = #{zfpb} where sfzh = #{sfzh} and healthResultXmmxNo = #{healthResultXmmxNo}
+	  	</if>
+	  	<if test="count==0">
+	    	insert into seniorTalent_orderPrint_healthResult(sfzh, healthResultXmNo, healthResultXmmxNo, nowValue, unit, createTime, createYgdm, zfpb)
+			values (#{sfzh}, #{healthResultXmNo}, #{healthResultXmmxNo}, #{nowValue},  #{unit}, GETDATE(), #{createYgdm}, #{zfpb})
+	  	</if>
+	</insert>
+	<insert id="addOrderPrintGoal" parameterType="com.ezsoft.domain.OrderPrintGoal">
+		  	<selectKey keyProperty="count" resultType="int" order="BEFORE">
+    		select count(*) as count from seniorTalent_orderPrint_goal where sfzh = #{sfzh} and goalXmmxNo = #{goalXmmxNo}
+	  	</selectKey>
+	  	<if test="count > 0">
+	    	update seniorTalent_orderPrint_goal set zfpb = #{zfpb}, goalTime = #{goalTime}, goalValue = #{goalValue}, unit = #{unit}
+	    	where sfzh = #{sfzh} and goalXmmxNo = #{goalXmmxNo}
+	  	</if>
+	  	<if test="count==0">
+		  	insert into seniorTalent_orderPrint_goal (sfzh, goalTime, healthResultXmNo, goalXmmxNo, goalStr, goalValue, unit, createTime, createYgdm, zfpb) 
+			values (#{sfzh}, #{goalTime}, #{healthResultXmNo}, #{goalXmmxNo}, #{goalStr}, #{goalValue}, #{unit}, GETDATE(), #{createYgdm}, #{zfpb})
+	  	</if>
+	</insert>
+	<insert id="addOrderPrintHealthCheck" parameterType="com.ezsoft.domain.OrderPrintHealthCheck">
+		<selectKey keyProperty="count" resultType="int" order="BEFORE">
+    		select count(*) as count from seniorTalent_orderPrint_healthCheck where sfzh = #{sfzh} and healthCheckXmmxNo = #{healthCheckXmmxNo}
+	  	</selectKey>
+	  	<if test="count > 0">
+	    	update seniorTalent_orderPrint_healthCheck set selectBz = #{selectBz}
+	    	where sfzh = #{sfzh} and healthCheckXmmxNo = #{healthCheckXmmxNo}
+	  	</if>
+	  	<if test="count==0">
+		  	insert into seniorTalent_orderPrint_healthCheck (sfzh, healthCheckXmNo, healthCheckXmmxNo, selectBz, createTime, createYgdm) 
+			values (#{sfzh}, #{healthCheckXmNo}, #{healthCheckXmmxNo}, #{selectBz}, GETDATE(), #{createYgdm})
+	  	</if>	
+	</insert>
+	
+	<!-- update -->
+	<update id="updateSfNo" parameterType="String">
+		update seniorTalent_sfNo set sfNo = sfNo + 1 where sfzh = #{sfzh}
+	</update>
+	<update id="updateOrderNo" parameterType="com.ezsoft.domain.OrderInfo">
+		update seniorTalent set orderNo = #{orderNo} where sfzh = #{sfzh} and zfpb = 0
+	</update>
+	
+	
+	
+	<update id="updateDiseaseSearchBz" parameterType="com.ezsoft.domain.SeniorTalent">
+		update seniorTalent set disease = #{disease}, searchBz = 1 where sfzh = #{sfzh} and zfpb = 0
+	</update>
+	
+	<update id="updateOrderExecuteTimeSolveBz" parameterType="Integer">
+		update seniorTalent_orderExecuteTime set solveBz = 1
+		where jlxh = #{jlxh}
+	</update>
+	<update id="updateOrderExecuteTimeZfpb" parameterType="Integer">
+		update seniorTalent_orderExecuteTime set zfpb = 1
+		where jlxh = #{jlxh}
+	</update>
+	
+</mapper>

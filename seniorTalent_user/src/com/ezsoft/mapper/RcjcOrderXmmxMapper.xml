@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper.RcjcOrderXmmxMapper">
+  <resultMap id="resultMap1" type="RcjcOrderXmmx">
+    <id column="jlxh" jdbcType="INTEGER" property="jlxh" />
+    <result column="sfzh"  property="sfzh" />
+    <result column="jclx"  property="jclx" />
+    <result column="jclxmc"  property="jclxmc" />
+    <result column="kssj"  property="kssj" />
+    <result column="jcHowOften" property="jcHowOften" />
+    <result column="jcNum"  property="jcNum" />
+    <result column="jcNo"  property="jcNo" />
+    <result column="zfpb" property="zfpb" />
+    <result column="createTime" property="createTime" />
+    <result column="createYgdm" property="createYgdm" />
+    <association property="seniorTalent" javaType="SeniorTalent">
+        <result property="name" column="name"/>
+    </association>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from seniorTalent_rcjcOrderXmmx
+    where jlxh = #{jlxh}
+  </delete>
+  <insert id="insert" parameterType="RcjcOrderXmmx">
+  	/*获取插入的最后一个id*/
+	<selectKey keyColumn="jlxh" keyProperty="jlxh" resultType="Integer" order="AFTER">
+		select IDENT_CURRENT('seniorTalent_rcjcOrderXmmx')
+	</selectKey>
+    insert into seniorTalent_rcjcOrderXmmx (sfzh, jclx, 
+      kssj, jcHowOften, jcNum, 
+      jcNo,
+      createTime, createYgdm)
+    values (#{sfzh}, #{jclx}, 
+      #{kssj}, #{jcHowOften}, #{jcNum}, 
+      #{jcNo}, 
+      GETDATE(), #{createYgdm})
+  </insert>
+  <update id="stopByPrimaryKey">
+    update seniorTalent_rcjcOrderXmmx
+    set
+      zfpb = 1
+    where jlxh = #{jlxh}
+    and zfpb = 0
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="RcjcOrderXmmx">
+    select jlxh, sfzh, jclx, kssj, jcHowOften, jcNum, jcNo, zfpb, 
+    createTime, createYgdm
+    from seniorTalent_rcjcOrderXmmx
+    where jlxh = #{jlxh}
+  </select>
+  <select id="selectAll" resultType="RcjcOrderXmmx">
+    select jlxh, sfzh, jclx, kssj, jcHowOften, jcNum, jcNo, zfpb,
+    createTime, createYgdm
+    from seniorTalent_rcjcOrderXmmx
+  </select>
+  <select id="select2" parameterType="Map" resultMap="resultMap1">
+    select rox.jlxh, rox.sfzh, rox.jclx, wh.keyword jclxmc, rox.kssj, rox.jcHowOften, rox.jcNum, rox.jcNo, rox.zfpb,
+    rox.createTime, rox.createYgdm, s.name
+    from seniorTalent_rcjcOrderXmmx rox
+    left join seniorTalent s on rox.sfzh = s.sfzh
+    left join admin_wh wh on rox.jclx=wh.keycode and wh.keytype='48'
+    <where>
+   		<if test="sfzh != null">
+	    	and rox.sfzh = #{sfzh}
+	    </if>
+	    <if test="zfpb != null">
+	    	and rox.zfpb = #{zfpb}
+	    </if>
+	</where>
+  </select>
+</mapper>

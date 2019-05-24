@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper.PushContentMapper">
+  <resultMap id="resultMap1" type="com.ezsoft.domain.PushContent">
+    <id column="pushContentNo" property="pushContentNo" />
+    <result column="title" property="title" />
+    <result column="content" property="content" />
+    <result column="sfzh" property="sfzh" />
+    <result column="pushBz" property="pushBz" />
+    <result column="pushTime" property="pushTime" />
+    <result column="createTime"  property="createTime" />
+    <result column="createYgdm" property="createYgdm" />
+    <association property="seniorTalent" javaType="SeniorTalent">
+        <result property="name" column="name"/>
+    </association>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from seniorTalent_pushContent
+    where pushContentNo = #{pushContentNo}
+  </delete>
+  <insert id="insert" parameterType="com.ezsoft.domain.PushContent">
+    insert into seniorTalent_pushContent (title, content, 
+      sfzh, pushTime, 
+      createTime, createYgdm)
+    values (#{title}, #{content}, 
+      #{sfzh}, #{pushTime}, 
+      GETDATE(), #{createYgdm})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ezsoft.domain.PushContent">
+    update seniorTalent_pushContent
+    set title = #{title},
+      content = #{content},
+      pushTime = #{pushTime},
+    where pushContentNo = #{pushContentNo}
+  </update>
+  <update id="stopByPrimaryKey">
+    update seniorTalent_pushContent
+    set pushBz = -1
+    where pushContentNo = #{pushContentNo}
+    and pushBz = 0
+  </update>
+  <update id="finishByPrimaryKey">
+    update seniorTalent_pushContent
+    set pushBz = 1
+    where pushContentNo = #{pushContentNo}
+    and pushBz = 0
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="PushContent">
+    select pushContentNo, title, content, sfzh, pushBz, pushTime, createTime, createYgdm
+    from seniorTalent_pushContent
+    where pushContentNo = #{pushContentNo}
+  </select>
+  <select id="selectAll" resultType="PushContent">
+    select pushContentNo, title, content, sfzh, pushBz, pushTime, createTime, createYgdm
+    from seniorTalent_pushContent
+  </select>
+  <select id="selectBySfzh" resultType="PushContent">
+    select pushContentNo, title, content, sfzh, pushBz, pushTime, createTime, createYgdm
+    from seniorTalent_pushContent
+    where sfzh = #{sfzh}
+  </select>
+  <select id="select2" parameterType="Map" resultMap="resultMap1">
+    select pc.pushContentNo, pc.title, pc.content, pc.sfzh, pc.pushBz, pc.pushTime, pc.createTime, pc.createYgdm, s.name
+    from seniorTalent_pushContent pc
+    left join seniorTalent s on pc.sfzh = s.sfzh
+    <where>
+   		<if test="sfzh != null">
+	    	and pc.sfzh = #{sfzh}
+	    </if>
+	    <if test="pushBz != null">
+	    	and pc.pushBz = #{pushBz}
+	    </if>
+	    <if test="kssj != null">
+	    	and pc.pushTime >= #{kssj}
+	    </if>
+		<if test="jssj != null">
+	    	<![CDATA[ and pc.pushTime <= #{jssj} ]]>
+	    </if>
+	</where>
+  </select>
+  <select id="selectNeedPush" resultType = 'PushContent'>
+    select pushContentNo, title, content, sfzh, pushBz, pushTime, createTime, createYgdm
+    from seniorTalent_pushContent
+    where pushTime = #{nowDate}
+    and pushBz = 0
+  </select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper">
+	<select id="selectOrderPrintDocSuggest" parameterType = "String" resultType="com.ezsoft.domain.OrderPrintDocSuggest">
+		  select jlxh, sfzh, suggestDocName, suggestDepName from seniorTalent_orderPrint_docSuggest 
+		  where zfpb = 0 and sfzh = #{sfzh}
+	</select>
+	<select id="selectOrderPrintDocSuggestById" parameterType = "Integer" resultType="com.ezsoft.domain.OrderPrintDocSuggest">
+		  select jlxh, sfzh, suggestDocName, suggestDepName from seniorTalent_orderPrint_docSuggest 
+		  where zfpb = 0 and jlxh = #{jlxh}
+	</select>
+	<insert id="addOrderPrintDocSuggest" parameterType="com.ezsoft.domain.OrderPrintDocSuggest">
+		insert into seniorTalent_orderPrint_docSuggest (sfzh, suggestDocName, suggestDepName, createTime, createYgdm) values
+        (#{sfzh}, #{suggestDocName}, #{suggestDepName}, GETDATE(), #{createYgdm})
+	</insert>
+	<update id="updateOrderPrintDocSuggest" parameterType="com.ezsoft.domain.OrderPrintDocSuggest">
+		update seniorTalent_orderPrint_docSuggest set suggestDocName = #{suggestDocName}, suggestDepName = #{suggestDepName} 
+		where jlxh = #{jlxh}
+	</update>
+	<delete id="deleteOrderPrintDocSuggest" parameterType="Integer">
+		delete from seniorTalent_orderPrint_docSuggest where jlxh = #{jlxh}
+	</delete>
+</mapper>

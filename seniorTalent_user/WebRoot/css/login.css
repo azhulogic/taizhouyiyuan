@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+.loginCenter
+{
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 350px;
+    width: 500px;
+    padding: 5%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.loginBtn{
+    width: 160px;
+    height: 46px;
+    font-size: 18px;
+}

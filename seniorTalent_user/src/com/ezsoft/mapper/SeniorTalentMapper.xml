@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper.SeniorTalentMapper">
+  <resultMap id="BaseResultMap" type="com.ezsoft.domain.SeniorTalent">
+    <id column="jlxh" jdbcType="NUMERIC" property="jlxh" />
+    <result column="name" jdbcType="NVARCHAR" property="name" />
+    <result column="sfzh" jdbcType="VARCHAR" property="sfzh" />
+    <result column="brxb" jdbcType="INTEGER" property="brxb" />
+    <result column="csny" jdbcType="DATE" property="csny" />
+    <result column="lxdh" jdbcType="VARCHAR" property="lxdh" />
+    <result column="lxdz" jdbcType="VARCHAR" property="lxdz" />
+    <result column="zfpb" jdbcType="INTEGER" property="zfpb" />
+    <result column="mzhm" jdbcType="VARCHAR" property="mzhm" />
+    <result column="zyhm" jdbcType="VARCHAR" property="zyhm" />
+    <result column="disease" jdbcType="VARCHAR" property="disease" />
+    <result column="brid" jdbcType="VARCHAR" property="brid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="createYgdm" jdbcType="VARCHAR" property="createYgdm" />
+    <result column="height" jdbcType="NUMERIC" property="height" />
+    <result column="weight" jdbcType="NUMERIC" property="weight" />
+    <result column="searchBz" jdbcType="INTEGER" property="searchBz" />
+    <result column="sfNo" jdbcType="INTEGER" property="sfNo" />
+    <result column="orderNo" jdbcType="INTEGER" property="orderNo" />
+    <result column="gms" jdbcType="NVARCHAR" property="gms" />
+    <result column="education" jdbcType="NVARCHAR" property="education" />
+    <result column="unit" jdbcType="NVARCHAR" property="unit" />
+    <result column="bloodType" jdbcType="NVARCHAR" property="bloodType" />
+    <result column="marriage" jdbcType="NVARCHAR" property="marriage" />
+    <result column="profession" jdbcType="NVARCHAR" property="profession" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from seniorTalent
+    where jlxh = #{jlxh,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="com.ezsoft.domain.SeniorTalent">
+    insert into seniorTalent (name,sfzh,brxb,csny,lxdh,lxdz,mzhm,zyhm,brid,disease, unit, createTime, createYgdm) values
+    (#{name}, #{sfzh}, #{brxb}, #{csny}, #{lxdh}, #{lxdz}, #{mzhm}, #{zyhm}, #{brid}, #{disease}, #{unit}, GETDATE(), #{createYgdm})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ezsoft.domain.SeniorTalent">
+    update seniorTalent
+    set name = #{name},
+      brxb = #{brxb},
+      csny = #{csny},
+      lxdh = #{lxdh},
+      lxdz = #{lxdz},
+      mzhm = #{mzhm},
+      zyhm = #{zyhm},
+      disease = #{disease},
+      brid = #{brid},
+      unit = #{unit}
+    where jlxh = #{jlxh}
+  </update>
+  <select id="selectDiseaseBySfzh" resultType="String">
+  	select disease
+  	from seniorTalent
+    where sfzh = #{sfzh}
+  </select>
+  <update id="updateDiseaseBySfzh" parameterType="SeniorTalent">
+  	update seniorTalent
+    set
+      disease = #{disease}
+    where sfzh = #{sfzh}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="SeniorTalent">
+    select jlxh, name, sfzh, brxb, csny, lxdh, lxdz, zfpb, mzhm, zyhm, disease, brid, 
+    createTime, createYgdm, height, weight, searchBz, sfNo, orderNo, gms, education, 
+    unit, bloodType, marriage, profession, topBloodPressure, downBloodPressure, bloodSugar,
+    fileNo
+    where jlxh = #{jlxh} and zfpb = 0
+  </select>
+  <select id="selectBySfzh" resultType="SeniorTalent">
+    select jlxh, name, sfzh, brxb, csny, lxdh, lxdz, zfpb, mzhm, zyhm, disease, brid, 
+    createTime, createYgdm, height, weight, searchBz, sfNo, orderNo, gms, education, 
+    unit, bloodType, marriage, profession, topBloodPressure, downBloodPressure, bloodSugar,
+    fileNo
+    from seniorTalent
+    where sfzh = #{sfzh} and zfpb = 0
+  </select>
+  <select id="selectAll" parameterType="SeniorTalent" resultType="SeniorTalent">
+    select jlxh, name, sfzh, brxb, csny, lxdh, lxdz, zfpb, mzhm, zyhm, disease, brid, 
+    createTime, createYgdm, height, weight, searchBz, sfNo, orderNo, gms, education, 
+    unit, bloodType, marriage, profession
+    from seniorTalent
+    <where>
+    	zfpb = 0
+   		<if test="mzhm != null">
+	    	AND mzhm = #{mzhm}
+	    </if>
+	    <if test="zyhm != null">
+	    	AND zyhm = #{zyhm}
+	    </if>
+	    <if test="sfzh != null">
+	    	AND sfzh = #{sfzh}
+	    </if>
+		<if test="name != null">
+	    	AND name = #{name}
+	    </if>
+	    <if test="lxdh != null">
+	    	AND lxdh = #{lxdh}
+	    </if>
+	    <if test="searchBz != null">
+	    	AND searchBz = #{searchBz}
+	    </if>
+	    <if test="disease != null">
+	    	AND disease = #{disease}
+	    </if>
+	</where>
+  </select>
+  <select id="selectTodo" parameterType="Map" resultType="Map" >
+	 <![CDATA[  select  count(*) sum
+	    from seniorTalent_rcjc a
+		left join admin_wh b on a.jclx=b.keycode and b.keytype='48'
+		 
+		]]>
+ 	<where>
+ 	 <![CDATA[  a.jczt=0 and a.yyrq<=getdate()]]>
+   		<if test="sfzh != null">
+	    	AND a.sfzh = #{sfzh}
+	    </if> 
+	</where>
+  </select>
+</mapper>

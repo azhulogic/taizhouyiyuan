@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper.HealthInfoMainMapper">
+  <resultMap id="BaseResultMap" type="com.ezsoft.domain.HealthInfoMain">
+    <id column="jlxh" jdbcType="INTEGER" property="jlxh" />
+    <result column="sendTime" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="userSubmitBz" jdbcType="INTEGER" property="userSubmitBz" />
+    <result column="userSubmitTime" jdbcType="TIMESTAMP" property="userSubmitTime" />
+    <result column="createYgdm" jdbcType="VARCHAR" property="createYgdm" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from seniorTalent_healthInfoMain
+    where jlxh = #{jlxh,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="HealthInfoMain">
+    insert into seniorTalent_healthInfoMain (createYgdm, createTime, userid
+      )
+    values (#{createYgdm}, getdate(), #{userid}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ezsoft.domain.HealthInfoMain">
+    update seniorTalent_healthInfoMain
+    set sendTime = #{sendTime,jdbcType=TIMESTAMP},
+      userSubmitBz = #{userSubmitBz,jdbcType=INTEGER},
+      userSubmitTime = #{userSubmitTime,jdbcType=TIMESTAMP},
+      createYgdm = #{createYgdm,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      userid = #{userid,jdbcType=INTEGER}
+    where jlxh = #{jlxh,jdbcType=INTEGER}
+  </update>
+  <update id="sendByPrimaryKey">
+    update seniorTalent_healthInfoMain
+    set 
+    	sendBz = 1,
+    	sendTime = getdate()
+    where jlxh = #{jlxh}
+  </update>
+  <update id="userSubmitByPrimaryKey">
+    update seniorTalent_healthInfoMain
+    set 
+    	userSubmitBz = 1,
+    	userSubmitTime = getdate()
+    where jlxh = #{jlxh}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select jlxh, sendTime, userSubmitBz, userSubmitTime, createYgdm, createTime, userid
+    from seniorTalent_healthInfoMain
+    where jlxh = #{jlxh,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select jlxh, sendTime, userSubmitBz, userSubmitTime, createYgdm, createTime, userid
+    from seniorTalent_healthInfoMain
+  </select>
+</mapper>

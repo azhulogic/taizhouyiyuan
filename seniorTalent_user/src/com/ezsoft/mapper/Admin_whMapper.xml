@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper.Admin_whMapper">
+  <resultMap id="BaseResultMap" type="com.ezsoft.domain.Admin_wh">
+    <id column="keytype" jdbcType="NUMERIC" property="keytype" />
+    <id column="keycode" jdbcType="NUMERIC" property="keycode" />
+    <result column="keyword" jdbcType="VARCHAR" property="keyword" />
+    <result column="descr" jdbcType="VARCHAR" property="descr" />
+    <result column="keyorder" jdbcType="NUMERIC" property="keyorder" />
+    <result column="keydel" jdbcType="NUMERIC" property="keydel" />
+    <result column="keymanid" jdbcType="NUMERIC" property="keymanid" />
+    <result column="ysd_valueStr" jdbcType="VARCHAR" property="ysd_valueStr" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from admin_wh
+    where keytype = #{keytype,jdbcType=NUMERIC}
+      and keycode = #{keycode,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="Admin_wh">
+    insert into admin_wh (keytype, keycode, keyword, 
+      descr, keyorder, keydel, 
+      keymanid, ysd_valueStr)
+    values (#{keytype,jdbcType=NUMERIC}, #{keycode,jdbcType=NUMERIC}, #{keyword,jdbcType=VARCHAR}, 
+      #{descr,jdbcType=VARCHAR}, #{keyorder,jdbcType=NUMERIC}, #{keydel,jdbcType=NUMERIC}, 
+      #{keymanid,jdbcType=NUMERIC}, #{ysd_valueStr,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="Admin_wh">
+    update admin_wh
+    set keyword = #{keyword,jdbcType=VARCHAR},
+      descr = #{descr,jdbcType=VARCHAR},
+      keyorder = #{keyorder,jdbcType=NUMERIC},
+      keydel = #{keydel,jdbcType=NUMERIC},
+      keymanid = #{keymanid,jdbcType=NUMERIC},
+      ysd_valueStr = #{ysd_valueStr,jdbcType=VARCHAR}
+    where keytype = #{keytype,jdbcType=NUMERIC}
+      and keycode = #{keycode,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultType="Admin_wh">
+    select keytype, keycode, keyword, descr, keyorder, keydel, keymanid, ysd_valueStr
+    from admin_wh
+    where keytype = #{keytype}
+      and keycode = #{keycode}
+  </select>
+  <select id="selectByKeytype" resultType="Admin_wh">
+    select keytype, keycode, keyword, descr, keymanid
+    from admin_wh
+    where keytype = #{keytype}
+    and keycode > 0 and keydel=0 order by keyorder
+  </select>
+  <select id="selectUserJclx" parameterType="Map" resultType="Admin_wh">
+    select keytype, keycode, keyword, descr, keymanid
+    from admin_wh
+    where keytype = 48
+    and keycode > 0 and keydel=0 
+    and keycode in 
+	(
+		select distinct jclx from seniorTalent_rcjc 
+		<where>
+			<if test="sfzh != null">
+				and sfzh = #{sfzh}
+			</if>
+			and yyrq between #{kssj} and #{jssj}
+		</where>
+	)
+    order by keyorder
+  </select>
+  <select id="selectAll" resultType="Admin_wh">
+    select keytype, keycode, keyword, descr, keyorder, keydel, keymanid, ysd_valueStr
+    from admin_wh
+  </select>
+</mapper>

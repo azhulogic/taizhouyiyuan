@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <properties resource="db.properties"/>
+  <!-- <settings>
+      <setting name="logImpl" value="STDOUT_LOGGING"/>
+  </settings> -->
+  <typeAliases>
+      <!-- 批量别名定义，扫描整个包下的类，别名为类名（大小写不敏感） -->
+      <package name="com.ezsoft.domain" />
+  </typeAliases>
+  <environments default="development">
+    <environment id="bsrun_01">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@(DESCRIPTION = (ADDRESS =(PROTOCOL=TCP)(HOST=172.16.1.246)(PORT=1521))(CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME = bsrun)(FAILOVER_MODE = (TYPE=select)(METHOD=basic))))"/>
+        <property name="username" value="tzhis"/>
+        <property name="password" value="tzhospital012"/>
+      </dataSource>
+    </environment>
+    <environment id="bsrun_04">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = 172.20.1.5)(PORT = 1521))(CONNECT_DATA = (SERVICE_NAME = orahis )))"/>
+        <property name="username" value="tzhis"/>
+        <property name="password" value="enze2014IBM"/>
+      </dataSource>
+    </environment>
+    <environment id="bsrun_03">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 126.168.1.10)(PORT = 1521)))(CONNECT_DATA =(SERVICE_NAME = bsrun)))"/>
+        <property name="username" value="tzhis"/>
+        <property name="password" value="tzhisIBM2015"/>
+      </dataSource>
+    </environment>
+    <environment id="bsrun_05">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 168.6.18.1)(PORT = 1521)))(CONNECT_DATA =(SERVICE_NAME = bsrun)))"/>
+        <property name="username" value="bsrun"/>
+        <property name="password" value="sybasepb9"/>
+      </dataSource>
+    </environment>
+    <environment id="sjzx_ezCenter">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@(DESCRIPTION =
+		    (ADDRESS = (PROTOCOL = TCP)(HOST = 172.16.240.232)(PORT = 1521))
+		    (CONNECT_DATA =   
+		      (SERVICE_NAME = centorcl)
+		    ))"
+    	/>
+        <property name="username" value="sjzx"/>
+        <property name="password" value="passw0rd"/>
+      </dataSource>
+    </environment>
+    <environment id="bsrun_test">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = 172.17.99.194 )(PORT = 1521))(CONNECT_DATA =(SERVICE_NAME = orcl)))"/>
+        <property name="username" value="tzyy"/>
+        <property name="password" value="tzyy"/>
+      </dataSource>
+    </environment>
+    
+    <!-- 创业员工信息数据库（数据从宏景里来的） -->
+    <environment id="BSOFT_hip30">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@172.16.80.88/hip30"/>
+        <property name="username" value="BSHIP_PLATFORM"/>
+        <property name="password" value="BSOFT"/>
+      </dataSource>
+    </environment>
+    
+   	<!-- 宏景 -->
+    <!-- <environment id="hj"> 
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+        <property name="url" value="jdbc:sqlserver://172.18.18.65:1433;DatabaseName=ykchr"/>
+        <property name="username" value="yksoft"/>
+        <property name="password" value="tzyy@123"/>
+      </dataSource>
+    </environment> -->
+    <environment id="ygInfo"> 
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+        <property name="url" value="jdbc:sqlserver://172.16.99.153:1433;DatabaseName=ghgl"/>
+        <property name="username" value="sa"/>
+        <property name="password" value="sybasepb"/>
+      </dataSource>
+    </environment> 
+    
+    <environment id="callMvcDb"> 
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+        <property name="url" value="jdbc:sqlserver://172.18.18.38:1433;DatabaseName=callMvcDb"/>
+        <property name="username" value="sa"/>
+        <property name="password" value="123"/>
+      </dataSource>
+    </environment> 
+    <!-- PICC数据库 -->
+    <environment id="PICC"> 
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+      </dataSource>
+    </environment> 
+    <!-- SJZX -->
+    <environment id="SJZX"> 
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+        <property name="url" value="jdbc:sqlserver://172.28.15.47:1433;DatabaseName=CaradgimEles"/>
+        <property name="username" value="mhzs"/>
+        <property name="password" value="mhzs@123"/>
+      </dataSource>
+    </environment> 
+    <!-- local数据库 -->
+    <environment id="local"> 
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+        <property name="url" value="jdbc:sqlserver://localhost:1433;DatabaseName=zl"/>
+        <property name="username" value="zl"/>
+        <property name="password" value="zl2000"/>
+      </dataSource>
+    </environment> 
+  </environments>
+  <mappers>
+    <mapper resource="com/ezsoft/oldMapper/mapper.xml"/>
+    <mapper resource="com/ezsoft/oldMapper/orderPrintDocSuggest.xml"/>
+    <mapper resource="com/ezsoft/oldMapper/orderPrintGoalEval.xml"/>
+    <mapper resource="com/ezsoft/oldMapper/sendMsgLog.xml"/>
+    <mapper resource="com/ezsoft/oldMapper/orderPrintExtraHealthResult.xml"/>
+    <mapper resource="com/ezsoft/oldMapper/admin_wh.xml"/>
+  </mappers>
+</configuration>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper">
+	<!-- <select id="selectAdmin_wh" parameterType = "com.ezsoft.domain.Admin_wh" resultType="com.ezsoft.domain.Admin_wh">
+		  select keycode,keyword from admin_wh where keytype = #{keytype} and keycode > 0 and keydel=0 and keycode= #{keycode} order by keyorder
+	</select> -->
+	<select id="selectAdmin_wh" parameterType = "com.ezsoft.domain.Admin_wh" resultType="com.ezsoft.domain.Admin_wh">
+		  select keycode,keyword from admin_wh 
+		  where  
+		  keytype =#{keytype} and keycode>0 and keydel=0 
+		   	<if test="keycode > 0 ">
+	    		AND keycode = #{keycode}
+	    	</if>
+		  order by keyorder
+	</select>
+</mapper>

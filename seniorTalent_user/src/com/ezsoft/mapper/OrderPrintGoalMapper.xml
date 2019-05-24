@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper.OrderPrintGoalMapper">
+  <resultMap id="BaseResultMap" type="com.ezsoft.domain.OrderPrintGoal">
+    <id column="jlxh" jdbcType="INTEGER" property="jlxh" />
+    <result column="sfzh" jdbcType="VARCHAR" property="sfzh" />
+    <result column="healthResultXmNo" jdbcType="INTEGER" property="healthResultXmNo" />
+    <result column="goalXmmxNo" jdbcType="INTEGER" property="goalXmmxNo" />
+    <result column="goalTime" jdbcType="TIMESTAMP" property="goalTime" />
+    <result column="goalStr" jdbcType="NVARCHAR" property="goalStr" />
+    <result column="goalValue" jdbcType="NVARCHAR" property="goalValue" />
+    <result column="unit" jdbcType="NVARCHAR" property="unit" />
+    <result column="zfpb" jdbcType="INTEGER" property="zfpb" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="createYgdm" jdbcType="VARCHAR" property="createYgdm" />
+    <result column="achieveBz" jdbcType="INTEGER" property="achieveBz" />
+    <result column="evalDate" jdbcType="DATE" property="evalDate" />
+    <result column="evalResult" jdbcType="INTEGER" property="evalResult" />
+    <result column="orderPrintNo" jdbcType="INTEGER" property="orderPrintNo" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from seniorTalent_orderPrint_goal
+    where jlxh = #{jlxh}
+  </delete>
+  <!-- healthResultXmNo -1000 表示自定义 -->
+  <insert id="insert" parameterType="com.ezsoft.domain.OrderPrintGoal">
+    insert into seniorTalent_orderPrint_goal 
+    (sfzh, healthResultXmNo, 
+      goalTime, goalStr, 
+      goalValue, 
+      createTime, createYgdm, 
+      evalDate, evalResult, orderPrintNo
+      )
+    values (#{sfzh}, #{healthResultXmNo}, 
+      #{goalTime}, #{goalStr}, 
+      #{goalValue},
+      GETDATE(), #{createYgdm},
+      #{evalDate, jdbcType=TIMESTAMP}, #{evalResult, jdbcType=INTEGER}, #{orderPrintNo}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="OrderPrintGoal">
+    update seniorTalent_orderPrint_goal
+    set 
+      goalTime = #{goalTime},
+      goalStr = #{goalStr},
+      goalValue = #{goalValue},
+      evalDate = #{evalDate, jdbcType=TIMESTAMP},
+      evalResult = #{evalResult, jdbcType=INTEGER}
+    where jlxh = #{jlxh}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="OrderPrintGoal">
+    select jlxh, sfzh, healthResultXmNo, goalXmmxNo, goalTime, goalStr, goalValue, unit, 
+    zfpb, createTime, createYgdm, achieveBz, evalDate, evalResult, orderPrintNo
+    from seniorTalent_orderPrint_goal
+    where jlxh = #{jlxh} and healthResultXmNo = -1000 and zfpb = 0
+  </select>
+  <select id="selectAll" resultType="OrderPrintGoal">
+    select jlxh, sfzh, healthResultXmNo, goalXmmxNo, goalTime, goalStr, goalValue, unit, 
+    zfpb, createTime, createYgdm, achieveBz, evalDate, evalResult, orderPrintNo
+    from seniorTalent_orderPrint_goal
+    where healthResultXmNo = -1000 and zfpb = 0
+    order by goalTime
+  </select>
+  <select id="selectBySfzh" resultType="OrderPrintGoal">
+    select jlxh, sfzh, healthResultXmNo, goalXmmxNo, goalTime, goalStr, goalValue, unit, 
+    zfpb, createTime, createYgdm, achieveBz, evalDate, evalResult, orderPrintNo
+    from seniorTalent_orderPrint_goal
+    where healthResultXmNo = -1000 and sfzh = #{sfzh} and zfpb = 0
+    order by goalTime
+  </select>
+</mapper>

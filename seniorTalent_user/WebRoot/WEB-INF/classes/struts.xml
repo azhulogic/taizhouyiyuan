@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+ 	<constant name="struts.devMode" value="false" />
+	<constant name="struts.i18n.reload" value="true"></constant>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<constant name="struts.ui.theme" value="simple"></constant>
+	<package name="default" namespace="/" extends="struts-default">   
+	   <action name="seniorTalentHealthInfo" class="com.ezsoft.action.SeniorTalentHealthInfoAction" >
+	         <result name="success">/WEB-INF/pages/seniorTalentHealthInfoForUser.jsp</result>
+	         <result name = "loginOut">/WEB-INF/pages/login.jsp</result>
+	         <result name="error">/WEB-INF/pages/error.jsp</result>
+	   </action>
+	   <action name="healthInfoSubmitSuccess" class="com.ezsoft.action.HealthInfoSubmitSuccessAction" >
+	         <result name="success">/WEB-INF/pages/healthInfoSubmitSuccessPage.jsp</result>
+	         <result name="error">/WEB-INF/pages/error.jsp</result>
+	   </action>   
+	   <action name="seniorTalentOrderPrintInfo" class="com.ezsoft.action.SeniorTalentOrderPrintAction" >
+	         <result name="success">/WEB-INF/pages/seniorTalentOrderPrintInfo.jsp</result>
+	         <result name="error">/WEB-INF/pages/error.jsp</result>
+	   </action>
+	   <action name="seniorTalentHealthCheckView" class="com.ezsoft.action.SeniorTalentHealthCheckViewAction" >
+	         <result name="success">/WEB-INF/pages/seniorTalentHealthCheckView.jsp</result>
+	         <result name="error">/WEB-INF/pages/error.jsp</result>
+	   </action>
+	   <action name="pushDisplay" class="com.ezsoft.action.PushDisplayAction" >
+	         <result name="success">/WEB-INF/pages/pushDisplay.jsp</result>
+	         <result name="error">/WEB-INF/pages/error.jsp</result>
+	   </action>
+	   <action name="ajax" class="com.ezsoft.action.AjaxAction" >
+	         <result name="error">/WEB-INF/pages/error.jsp</result>
+	   </action>
+	   <action name="successPage" class="com.ezsoft.action.SuccessPageAction" >
+	         <result name="success">/WEB-INF/pages/successPage.jsp</result>
+	   </action>
+	   
+	   <action name="seniorTalentRcjcTodoList" class="com.ezsoft.action.RcjcAction" >
+	         <result name="success">/WEB-INF/pages/seniorTalentRcjcTodoList.jsp</result>
+	          <result name="manager">/WEB-INF/pages/seniorTalentRcjcTodoListMng.jsp</result>
+	         <result name="error">/WEB-INF/pages/error.jsp</result>
+	   </action>
+	    <action name="seniorTalentRcjcManag" class="com.ezsoft.action.RcjcManagAction" >
+	         <result name="success">/WEB-INF/pages/seniorTalentRcjcManag.jsp</result>
+	         <result name="error">/WEB-INF/pages/error.jsp</result>
+	   </action>
+	    <action name="seniorTalent" class="com.ezsoft.action.SeniorTalentAction" >
+	         <result name="success">/WEB-INF/pages/seniorTalentInfo.jsp</result>
+	         <result name="error">/WEB-INF/pages/error.jsp</result>
+	   </action>
+	   
+	</package>
+</struts>    

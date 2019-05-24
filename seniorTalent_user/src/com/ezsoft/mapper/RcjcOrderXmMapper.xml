@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper.RcjcOrderXmMapper">
+  <resultMap id="BaseResultMap" type="com.ezsoft.domain.RcjcOrderXm">
+    <id column="jcNo" jdbcType="INTEGER" property="jcNo" />
+    <result column="sfzh" jdbcType="VARCHAR" property="sfzh" />
+    <result column="zfpb" jdbcType="INTEGER" property="zfpb" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="createYgdm" jdbcType="VARCHAR" property="createYgdm" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from seniorTalent_rcjcOrderXm
+    where jcNo = #{jcNo,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="RcjcOrderXm">
+  	/*获取插入的最后一个id*/
+	<selectKey keyColumn="jcNo" keyProperty="jcNo" resultType="Integer" order="AFTER">
+		select IDENT_CURRENT('seniorTalent_rcjcOrderXm')
+	</selectKey>
+    insert into seniorTalent_rcjcOrderXm (sfzh, 
+      createTime, createYgdm)
+    values (#{sfzh},
+      GETDATE(), #{createYgdm})
+  </insert>
+  <update id="stopByPrimaryKey">
+    update seniorTalent_rcjcOrderXm
+    set zfpb = 0
+    where jcNo = #{jcNo}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select jcNo, sfzh, zfpb, createTime, createYgdm
+    from seniorTalent_rcjcOrderXm
+    where jcNo = #{jcNo,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select jcNo, sfzh, zfpb, createTime, createYgdm
+    from seniorTalent_rcjcOrderXm
+  </select>
+</mapper>

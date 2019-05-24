@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper">
+	<select id="selectOrderPrintGoalEval" parameterType = "String" resultType="com.ezsoft.domain.OrderPrintGoalEval">
+		  select goalEvalNo, goalNo, sfzh, evalDate, evalResult from seniorTalent_orderPrint_goalEval 
+		  where zfpb = 0 and sfzh = #{sfzh}
+	</select>
+	<select id="selectOrderPrintGoalEvalById" parameterType = "Integer" resultType="com.ezsoft.domain.OrderPrintGoalEval">
+		  select goalEvalNo, goalNo, sfzh, evalDate, evalResult from seniorTalent_orderPrint_goalEval 
+		  where zfpb = 0 and goalEvalNo = #{goalEvalNo}
+	</select>
+	<insert id="addOrderPrintGoalEval" parameterType="com.ezsoft.domain.OrderPrintGoalEval">
+		insert into seniorTalent_orderPrint_goalEval (goalNo, sfzh, evalDate, evalResult, createTime, createYgdm) values
+        (#{goalNo}, #{sfzh}, #{evalDate}, #{evalResult}, GETDATE(), #{createYgdm})
+	</insert>
+	<update id="updateOrderPrintGoalEval" parameterType="com.ezsoft.domain.OrderPrintGoalEval">
+		update seniorTalent_orderPrint_goalEval set evalDate = #{evalDate}, evalResult = #{evalResult}, updateTime = GETDATE(), updateYgdm = #{updateYgdm}
+		where goalEvalNo = #{goalEvalNo}
+	</update>
+	<delete id="deleteOrderPrintGoalEval" parameterType="Integer">
+		delete from seniorTalent_orderPrint_goalEval where goalEvalNo = #{goalEvalNo}
+	</delete>
+</mapper>

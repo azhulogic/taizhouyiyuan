@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezsoft.mapper.SeniorTalentRcjcMapper">
+  <resultMap id="BaseResultMap" type="com.ezsoft.domain.SeniorTalentRcjc">
+    <id column="jlxh" jdbcType="NUMERIC" property="jlxh" />
+    <result column="sfzh" jdbcType="VARCHAR" property="sfzh" />
+    <result column="yyrq" jdbcType="TIMESTAMP" property="yyrq" />
+    <result column="jclx" jdbcType="INTEGER" property="jclx" />
+    <result column="jcz" jdbcType="VARCHAR" property="jcz" />
+    <result column="jlrq" jdbcType="TIMESTAMP" property="jlrq" />
+    <result column="jczt" jdbcType="INTEGER" property="jczt" />
+  </resultMap>
+  <resultMap id="RcjcTodoList" type="com.ezsoft.domain.RcjcTodoList">
+    <id column="jlxh" jdbcType="NUMERIC" property="jlxh" />
+    <result column="sfzh" jdbcType="VARCHAR" property="sfzh" />
+    <result column="yyrq" jdbcType="TIMESTAMP" property="yyrq" />
+    <result column="jclx" jdbcType="INTEGER" property="jclx" />
+    <result column="jcz" jdbcType="VARCHAR" property="jcz" />
+    <result column="jlrq" jdbcType="TIMESTAMP" property="jlrq" />
+    <result column="jczt" jdbcType="INTEGER" property="jczt" />
+    <result column="jczt_desc" jdbcType="VARCHAR" property="jczt_desc" />
+    <result column="jclx_desc" jdbcType="VARCHAR" property="jclx_desc" />
+    <result column="brxm" jdbcType="VARCHAR" property="brxm" />
+    <result column="lxdh" jdbcType="VARCHAR" property="lxdh" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from seniorTalent_rcjc
+    where jlxh = #{jlxh,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="com.ezsoft.domain.SeniorTalentRcjc">
+    insert into seniorTalent_rcjc (sfzh, yyrq, 
+      jclx, rcjcOrderXmNo, rcjcOrderXmmxNo)
+    values (#{sfzh}, #{yyrq}, 
+      #{jclx}, #{rcjcOrderXmNo}, #{rcjcOrderXmmxNo})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ezsoft.domain.SeniorTalentRcjc">
+    update seniorTalent_rcjc
+    set sfzh = #{sfzh,jdbcType=VARCHAR},
+      yyrq = #{yyrq,jdbcType=TIMESTAMP},
+      jclx = #{jclx,jdbcType=INTEGER},
+      jcz = #{jcz,jdbcType=VARCHAR},
+      jlrq = #{jlrq,jdbcType=TIMESTAMP},
+      jczt = #{jczt,jdbcType=INTEGER}
+    where jlxh = #{jlxh,jdbcType=NUMERIC}
+  </update>
+    <update id="updateJczByPrimaryKey" parameterType="com.ezsoft.domain.SeniorTalentRcjc">
+    update seniorTalent_rcjc
+    set  
+      jcz = #{jcz,jdbcType=VARCHAR},
+      jlrq = #{jlrq,jdbcType=TIMESTAMP},
+      jczt = #{jczt,jdbcType=INTEGER}
+    where jlxh = #{jlxh,jdbcType=NUMERIC}
+  </update>
+  <update id="stopByRcjcOrderXmNo">
+    update seniorTalent_rcjc
+    set
+      jczt = -1
+    where rcjcOrderXmNo = #{rcjcOrderXmNo}
+    and yyrq > GETDATE()
+    and jczt = 0
+  </update>
+  <update id="stopByRcjcOrderXmmxNo">
+    update seniorTalent_rcjc
+    set
+      jczt = -1
+    where rcjcOrderXmmxNo = #{rcjcOrderXmmxNo}
+    and yyrq > GETDATE()
+    and jczt = 0
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select jlxh, sfzh, yyrq, jclx, jcz, jlrq, jczt
+    from seniorTalent_rcjc
+    where jlxh = #{jlxh,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select jlxh, sfzh, yyrq, jclx, jcz, jlrq, jczt
+    from seniorTalent_rcjc
+  </select>
+  
+  <select id="selectTodoList" parameterType="com.ezsoft.domain.SeniorTalentRcjc" resultMap="RcjcTodoList">
+    select a.jlxh, a.sfzh, a.yyrq, a.jclx, a.jcz, a.jlrq, a.jczt,b.keyword jclx_desc,
+    case when a.jczt=0 then '待测'   when a.jczt=1 then '已测' when a.jczt=-1 then '已停止' ELSE '' END  jczt_desc
+    ,c.name ,c.lxdh
+    from seniorTalent_rcjc a
+	left join admin_wh b on a.jclx=b.keycode and b.keytype='48'
+	left join seniorTalent c on a.sfzh=c.sfzh
+     <where>
+    	1 = 1
+   		<if test="sfzh != null">
+	    	AND a.sfzh = #{sfzh}
+	    </if>
+	    <if test="yyrq != null">
+	    	AND a.yyrq = #{yyrq}
+	    </if>
+	    
+	     <if test="yyrq1 != null">
+	    	AND a.yyrq >= #{yyrq1}
+	    </if>
+	    
+	     <if test="yyrq2 != null">
+	    <![CDATA[ AND a.yyrq <= #{yyrq2} ]]>
+	    </if>
+	    
+	    <if test="jclx != null">
+	    	AND a.jclx = #{jclx}
+	    </if>
+		<if test="jlrq != null">
+	    	AND a.jlrq = #{jlrq}
+	    </if>
+	    <if test="jczt != null">
+	    	AND a.jczt = #{jczt}
+	    </if>
+	  <!--   <if test="lxdh != null">
+	    	AND c.lxdh = #{lxdh}
+	    </if> -->
+	</where>
+	order by a.yyrq, a.jclx
+  </select>
+  
+    <select id="selectTodoWcList" parameterType="com.ezsoft.domain.SeniorTalentRcjc" resultMap="RcjcTodoList">
+	select distinct a.sfzh, a.jclx,  a.jczt,b.keyword jclx_desc,
+    case when a.jczt=0 then '待测'   when a.jczt=1 then '已测' when a.jczt=-1 then '已停止' ELSE '' END  jczt_desc
+    ,c.name ,c.lxdh
+    from seniorTalent_rcjc a
+	left join admin_wh b on a.jclx=b.keycode and b.keytype='48'
+	left join seniorTalent c on a.sfzh=c.sfzh
+     <where>
+    	1 = 1
+   		<if test="sfzh != null">
+	    	AND a.sfzh = #{sfzh}
+	    </if>
+	    <if test="yyrq != null">
+	    	AND a.yyrq = #{yyrq}
+	    </if>
+	    
+	     <if test="yyrq1 != null">
+	    	AND a.yyrq >= #{yyrq1}
+	    </if>
+	    
+	     <if test="yyrq2 != null">
+	    <![CDATA[ AND a.yyrq <= #{yyrq2} ]]>
+	    </if>
+	    
+	    <if test="jclx != null">
+	    	AND a.jclx = #{jclx}
+	    </if>
+		<if test="jlrq != null">
+	    	AND a.jlrq = #{jlrq}
+	    </if>
+	    <if test="jczt != null">
+	    	AND a.jczt = #{jczt}
+	    </if>
+	</where>
+	order by a.jclx
+  </select>
+  
+  
+  
+</mapper>
